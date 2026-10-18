@@ -125,8 +125,58 @@ function calcConcrete(x,u){
 function calcLumber(x,u){const thick=positive(x.thickness),width=positive(x.width),len=positive(x.length),qty=positive(x.quantity);if([thick,width,len,qty].some(v=>v===null)||qty%1!==0)return null;const volM3=u==='us'?thick*IN_M*width*IN_M*len*FT_M*qty:thick*.001*width*.001*len*qty;const bf=volM3/BF_M3;return {heading:u==='us'?`${fmt(bf,3)} board ft`:`${fmt(volM3,5)} m³`,label:'Total lumber volume',rows:[['Pieces',String(qty)],...[u==='us'?['Cubic meters',`${fmt(volM3,5)} m³`]:['Board feet',`${fmt(bf,3)} board ft`]],['Length per piece',`${fmt(len,3)} ${u==='us'?'ft':'m'}`]],formula:u==='us'?`(${fmt(thick)} in × ${fmt(width)} in × ${fmt(len)} ft ÷ 12) × ${qty} = ${fmt(bf,3)} board feet.`:`Thickness × width × length × pieces = ${fmt(volM3,5)} m³.\n1 board foot = exactly 0.002359737216 m³.`,copy:`Lumber: ${fmt(bf,3)} board feet (${qty} pieces; ${fmt(volM3,5)} m³)`};}
 function calcMath(x,u){const rise=positive(x.rise,true),run=positive(x.run);if(rise===null||run===null)return null;const hyp=Math.hypot(rise,run),angle=Math.atan2(rise,run)*180/Math.PI,pitch=rise/run*12,unit=u==='us'?'ft':'m';return {heading:`${fmt(hyp,3)} ${unit}`,label:'Diagonal / sloped length',rows:[['Angle',`${fmt(angle,2)}°`],['Pitch',`${fmt(pitch,3)} : 12`],['Rise ÷ run',`${fmt(rise/run*100,2)}%`]],formula:`√(${fmt(run)}² + ${fmt(rise)}²) = ${fmt(hyp,3)} ${unit}.\nAngle = arctan(rise ÷ run) = ${fmt(angle,2)}°.\nPitch = (rise ÷ run) × 12 = ${fmt(pitch,3)} in 12.`,copy:`Diagonal: ${fmt(hyp,3)} ${unit}; angle: ${fmt(angle,2)}°; pitch: ${fmt(pitch,3)}:12`};}
 
-function calcRoof(x,u){const run=positive(x.run),pitch=positive(x.pitch,true),overhang=positive(x.overhang,true);if([run,pitch,overhang].some(v=>v===null))return null;if(pitch>48)return {error:'Pitch must be 0 to 48 per 12.'};const angle=Math.atan(pitch/12)*180/Math.PI,rise=run*pitch/12,factor=Math.hypot(1,pitch/12),length=(run+overhang)*factor,unit=u==='us'?'ft':'m';return {heading:`${fmt(angle,2)}°`,label:'Roof angle',rows:[['Pitch',`${fmt(pitch)} : 12`],['Rise',`${fmt(rise,3)} ${unit}`],['Rafter length including overhang',`${fmt(length,3)} ${unit}`],['Slope multiplier',fmt(factor,5)],['Slope percentage',`${fmt(pitch/12*100,2)}%`]],formula:`Angle = arctan(pitch ÷ 12) = ${fmt(angle,2)}°.\nRise = run × pitch ÷ 12 = ${fmt(rise,3)} ${unit}.\nRafter = (run + overhang) × √(1 + (pitch ÷ 12)²) = ${fmt(length,3)} ${unit}.`,copy:`Roof: ${fmt(pitch)}:12; ${fmt(angle,2)}°; rafter ${fmt(length,3)} ${unit}`};}
-function calcStairs(x,u){const total=positive(x.total),max=positive(x.max),tread=positive(x.tread);if([total,max,tread].some(v=>v===null))return null;const ratio=total/max,count=Math.ceil(ratio-1e-12*Math.max(1,Math.abs(ratio)));if(count>1000)return {error:'Check total rise and maximum riser.'};const actual=total/count,treads=count-1,run=treads*tread,unit=u==='us'?'in':'cm',angle=Math.atan2(actual,tread)*180/Math.PI;return {heading:`${count} risers`,label:'Equal stair risers',rows:[['Riser height',`${fmt(actual,4)} ${unit}`],['Treads (upper landing is final)',String(treads)],['Tread depth',`${fmt(tread,3)} ${unit}`],['Total horizontal run',`${fmt(run,3)} ${unit}`],['Approximate stair angle',`${fmt(angle,2)}°`]],formula:`Risers = round up(${fmt(total,3)} ÷ ${fmt(max,3)}) = ${count}.\nEach riser = ${fmt(total,3)} ÷ ${count} = ${fmt(actual,4)} ${unit}.\nTreads = risers − 1 = ${treads}.\nRun = ${treads} × ${fmt(tread,3)} = ${fmt(run,3)} ${unit}.`,copy:`Stairs: ${count} risers at ${fmt(actual,4)} ${unit}; ${treads} treads; run ${fmt(run,3)} ${unit}`};}
+function calcRoof(x,u){const run=positive(x.run),pitch=positive(x.pitch,true),overhang=positive(x.overhang,true);if([run,pitch,overhang].some(v=>v===null))return null;if(pitch>48)return {error:'Pitch must be 0 to 48 per 12.'};const angle=Math.atan(pitch/12)*180/Math.PI,rise=run*pitch/12,factor=Math.hypot(1,pitch/12),length=(run+overhang)*factor,unit=u==='us'?'ft':'m';return {heading:`${fmt(angle,2)}°`,label:'Roof angle',rows:[['Pitch',`${fmt(pitch)} : 12`],['Rise',`${fmt(rise,3)} ${unit}`],['Rafter length including overhang',`${fmt(length,3)} ${unit}`],['Slope multiplier',fmt(factor,5)],['Slope percentage',`${fmt(pitch/12*100,2)}%`]],formula:`Angle = arctan(pitch ÷ 12) = ${fmt(angle,2)}°.\nRise = run × pitch ÷ 12 = ${fmt(rise,3)} ${unit}.\nRafter = (run + overhang) × √(1 + (pitch ÷ 12)²) = ${fmt(length,3)} ${unit}.`,copy:`Roof: ${fmt(pitch)}:12; ${fmt(angle,2)}°; rafter ${fmt(length,3)} ${unit}`,diagram:{kind:'roof',pitch,angle,run,rise,overhang,length,unit}};}
+function calcStairs(x,u){const total=positive(x.total),max=positive(x.max),tread=positive(x.tread);if([total,max,tread].some(v=>v===null))return null;const ratio=total/max,count=Math.ceil(ratio-1e-12*Math.max(1,Math.abs(ratio)));if(count>1000)return {error:'Check total rise and maximum riser.'};const actual=total/count,treads=count-1,run=treads*tread,unit=u==='us'?'in':'cm',angle=Math.atan2(actual,tread)*180/Math.PI;return {heading:`${count} risers`,label:'Equal stair risers',rows:[['Riser height',`${fmt(actual,4)} ${unit}`],['Treads (upper landing is final)',String(treads)],['Tread depth',`${fmt(tread,3)} ${unit}`],['Total horizontal run',`${fmt(run,3)} ${unit}`],['Approximate stair angle',`${fmt(angle,2)}°`]],formula:`Risers = round up(${fmt(total,3)} ÷ ${fmt(max,3)}) = ${count}.\nEach riser = ${fmt(total,3)} ÷ ${count} = ${fmt(actual,4)} ${unit}.\nTreads = risers − 1 = ${treads}.\nRun = ${treads} × ${fmt(tread,3)} = ${fmt(run,3)} ${unit}.`,copy:`Stairs: ${count} risers at ${fmt(actual,4)} ${unit}; ${treads} treads; run ${fmt(run,3)} ${unit}`,diagram:{kind:'stairs',count,actual,tread,run,unit}};}
+
+function renderGeometryDiagram(data){
+ const container=document.createElement('div');
+ container.className='geometry-diagram';
+ container.style.cssText='margin-top:18px;padding:12px;background:#f1f5f9;border-radius:12px;color:#152b42';
+ const heading=document.createElement('div');
+ heading.style.cssText='font-weight:800;font-size:14px;margin-bottom:8px';
+ heading.textContent=data.kind==='roof'?'Roof geometry — updates as you type':'Stair layout — updates as you type';
+ container.appendChild(heading);
+ const ns='http://www.w3.org/2000/svg';
+ const svg=document.createElementNS(ns,'svg');
+ svg.setAttribute('viewBox','0 0 440 230');
+ svg.setAttribute('role','img');
+ svg.setAttribute('aria-label',data.kind==='roof'?'Roof rise, run, slope and angle diagram':'Stair risers and treads diagram');
+ svg.style.cssText='width:100%;height:auto;display:block';
+ const make=(tag,attrs,label)=>{const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,String(v));if(label!==undefined)e.textContent=label;svg.appendChild(e);return e};
+ const line=(x1,y1,x2,y2,color='#285271',width=2)=>make('line',{x1,y1,x2,y2,stroke:color,'stroke-width':width});
+ const label=(x,y,t,anchor='middle')=>make('text',{x,y,fill:'#152b42','font-size':13,'font-weight':600,'text-anchor':anchor},t);
+ if(data.kind==='roof'){
+  const x0=42,x1=372,y0=187,dx=x1-x0;
+  const h=Math.min(137,Math.max(0,dx*data.pitch/12));
+  const top=y0-h;
+  make('polygon',{points:x0+','+y0+' '+x1+','+y0+' '+x1+','+top,fill:'#dcebf4',stroke:'#285271','stroke-width':2});
+  line(x0,y0,x1,top,'#c78b20',5);
+  make('path',{d:'M '+(x1-14)+' '+y0+' v -14 h 14',fill:'none',stroke:'#285271','stroke-width':1.5});
+  label(210,215,'Run: '+fmt(data.run,2)+' '+data.unit);
+  label(382,(y0+top)/2,'Rise: '+fmt(data.rise,2)+' '+data.unit,'start');
+  label(175,Math.max(16,(y0+top)/2-12),'Slope: '+fmt(data.length,2)+' '+data.unit);
+  label(84,y0-9,fmt(data.angle,2)+'°','start');
+  label(218,24,'Pitch '+fmt(data.pitch,2)+':12');
+ }else{
+  const shown=Math.min(data.count,12);
+  const left=40,bottom=188,right=386,top=36;
+  const w=(right-left)/shown,h=(bottom-top)/shown;
+  let path='M '+left+' '+bottom;
+  for(let i=0;i<shown;i++)path+=' v -'+h+' h '+w;
+  make('path',{d:path,fill:'none',stroke:'#c78b20','stroke-width':4,'stroke-linejoin':'round'});
+  line(left,bottom,right,bottom,'#285271',1.5);
+  label(220,216,'Total run: '+fmt(data.run,2)+' '+data.unit);
+  label(43,20,data.count+' equal risers at '+fmt(data.actual,3)+' '+data.unit,'start');
+  if(data.count>shown)label(220,31,'Schematic shows first '+shown+' risers');
+  label(392,185,'Tread '+fmt(data.tread,2)+' '+data.unit,'end');
+ }
+ container.appendChild(svg);
+ const note=document.createElement('div');
+ note.style.cssText='font-size:12px;color:#536579;line-height:1.45';
+ note.textContent=data.kind==='roof'?'Schematic only; not a scaled cutting plan. Overhang is included in the reported slope length.':'Schematic only; number of treads assumes the upper landing serves as the final tread.';
+ container.appendChild(note);
+ return container;
+}
 function field(name,label,opts={}){const {value='',hint='',wide=false,type='number',step='any',placeholder='',options=null}=opts;const id='f_'+name;const inner=options?`<select name="${name}" id="${id}">${options.map(([val,txt])=>`<option value="${val}">${txt}</option>`).join('')}</select>`:`<input id="${id}" name="${name}" type="${type}" ${type==='number'?'inputmode="decimal" min="0" step="'+step+'"':'inputmode="text"'} placeholder="${placeholder}" value="${value}" autocomplete="off">`;return `<div class="field${wide?' wide':''}"><label for="${id}">${label}</label>${inner}${hint?`<span class="hint">${hint}</span>`:''}</div>`;}
 function forms(t,u){const us=u==='us',ft=us?'ft':'m',sq=us?'sq ft':'m²';switch(t){
 case 'measure':return {basic:field('value','Length to convert',{type:'text',placeholder:'e.g. 5 3/8 or 12.5',wide:true,hint:'Fractions accepted: 3/4, 2 1/2, 2-1/2'})+field('from','From',{options:LENGTH_UNITS.map(x=>[x,x]),})+field('to','To',{options:LENGTH_UNITS.map(x=>[x,x])}),advance:field('precision','Fraction precision',{options:[[16,'Nearest 1/16 in'],[32,'Nearest 1/32 in'],[64,'Nearest 1/64 in']]}),defaults:{from:us?'in':'cm',to:us?'ft':'m',precision:'16'}};
@@ -147,7 +197,7 @@ const root=$('#resultBody');if(!result){root.className='result-empty';root.textC
 if(result.error){root.className='result-empty';root.textContent=result.error;$('#formulaText').textContent='Correct the input above to continue.';$('#copyResult').disabled=true;return;}
 root.className='';const name=document.createElement('div');name.className='result-name';name.textContent=result.label;root.replaceChildren(name);
 const big=document.createElement('div');big.className='result-big';big.textContent=result.heading;root.appendChild(big);
-const secondary=document.createElement('div');secondary.className='result-secondary';for(const [label,value] of result.rows){const line=document.createElement('div');line.className='result-line';const left=document.createElement('span'),right=document.createElement('strong');left.textContent=label;right.textContent=value;line.append(left,right);secondary.appendChild(line)}root.appendChild(secondary);
+const secondary=document.createElement('div');secondary.className='result-secondary';for(const [label,value] of result.rows){const line=document.createElement('div');line.className='result-line';const left=document.createElement('span'),right=document.createElement('strong');left.textContent=label;right.textContent=value;line.append(left,right);secondary.appendChild(line)}root.appendChild(secondary);if(result.diagram)root.appendChild(renderGeometryDiagram(result.diagram));
 if(result.warning){const warn=document.createElement('div');warn.className='result-warning';warn.textContent=result.warning;root.appendChild(warn)}$('#formulaText').textContent=result.formula;$('#copyResult').disabled=false;state.latest=result;}
 function buildForm(){if(!state.tool)return;const {title,subtitle,note}=toolMeta[state.tool],def=forms(state.tool,state.units);$('#calcTitle').textContent=title;$('#breadcrumb').textContent=title;$('#calcSubtitle').textContent=subtitle;$('#toolNote').textContent=note;$('#basicFields').innerHTML=def.basic;$('#advancedFields').innerHTML=def.advance||'';
 $('#advancedSection').hidden=!def.advance;$('#unitUS').setAttribute('aria-pressed',String(state.units==='us'));$('#unitMetric').setAttribute('aria-pressed',String(state.units==='metric'));
