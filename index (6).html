@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#132234">
+  <meta name="description" content="Project Calculator Toolbox: free offline project calculators for DIY homeowners and tradespeople. A DONCO-BAYCITY app.">
+  <title>Project Calculator Toolbox | DONCO-BAYCITY</title>
+  <style>
+    :root{color-scheme:light;--navy:#132234;--blue:#21374f;--gold:#e2a42f;--ink:#182333;--muted:#5c6977;--paper:#f5f6f8;--white:#fff;--line:#dfe5eb;--accent:#114c70;--error:#9d2c2c;--good:#0e674d;--radius:18px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+    button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid #e2a42f;outline-offset:3px}
+    .top{background:var(--navy);color:white;border-bottom:4px solid var(--gold)}.top-inner{max-width:1040px;margin:auto;padding:18px 23px;display:flex;align-items:center;gap:14px;justify-content:space-between}.brand{display:flex;align-items:center;gap:12px;min-width:0}.brand-mark{height:49px;width:49px;flex:none;border:2px solid var(--gold);border-radius:14px;display:grid;place-items:center;color:var(--gold)}.brand-mark svg{width:31px;height:31px}.brand-name{font-weight:850;font-size:clamp(1.2rem,3vw,1.5rem);letter-spacing:-.05em;line-height:1.08}.brand-sub{font-size:.69rem;letter-spacing:.17em;text-transform:uppercase;color:#b9c8d5;margin-top:5px}.top-right{color:#b8cad8;font-size:.78rem;white-space:nowrap}
+    .page{width:min(100%,1040px);margin:0 auto;padding:30px 22px 52px}.hero{padding:24px 0 12px}.kicker{font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#94620b;font-size:.73rem}.hero h1{margin:10px 0 9px;font-size:clamp(1.75rem,4.2vw,2.65rem);line-height:1.13;letter-spacing:-.045em}.hero p{margin:0;max-width:720px;color:var(--muted);font-size:1.02rem}.promise{display:flex;gap:9px;flex-wrap:wrap;margin:23px 0 25px}.promise span{border:1px solid #dbe2e9;background:#fff;border-radius:50px;padding:6px 12px;font-size:.82rem;color:#455366;font-weight:650}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.tile{background:white;color:inherit;text-align:left;border:1px solid var(--line);border-radius:var(--radius);padding:22px;min-height:195px;display:flex;flex-direction:column;align-items:flex-start;box-shadow:0 4px 14px rgba(19,34,52,.03);transition:transform .15s,border .15s,box-shadow .15s}.tile:hover{transform:translateY(-2px);border-color:#b1c3d2;box-shadow:0 9px 24px rgba(19,34,52,.09)}.tile-icon{height:47px;width:47px;border-radius:13px;display:grid;place-items:center;background:#ebf2f8;color:#20526e;font-size:1.65rem;line-height:1}.tile h2{font-size:1.07rem;margin:16px 0 5px;letter-spacing:-.015em}.tile p{font-size:.89rem;margin:0;color:var(--muted)}.tile-arrow{margin-top:auto;padding-top:14px;color:var(--accent);font-weight:750;font-size:.84rem}
+    .view[hidden]{display:none!important}.back{border:0;background:transparent;font-weight:700;color:var(--accent);padding:8px 0 15px}.calc-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;margin:4px 0 20px}.calc-head h1{font-size:clamp(1.65rem,3.4vw,2.2rem);letter-spacing:-.04em;margin:2px 0 4px}.calc-head p{margin:0;color:var(--muted)}.segment{display:flex;padding:4px;background:#e5eaf0;border-radius:12px;gap:3px;flex:none}.segment button{font-size:.9rem;font-weight:750;border:none;border-radius:9px;padding:9px 14px;background:transparent;color:#556573;white-space:nowrap}.segment button[aria-pressed="true"]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.09);color:var(--navy)}
+    .panel-grid{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);gap:18px;align-items:start}.panel{border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:0 4px 14px rgba(19,34,52,.03);padding:24px}.panel h2{font-size:1.05rem;margin:0 0 16px}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.field{display:flex;flex-direction:column;min-width:0;gap:7px}.field.wide{grid-column:1/-1}.field label{font-size:.85rem;font-weight:725;color:#344256}.field input,.field select{width:100%;border:1px solid #cbd5df;border-radius:10px;background:#fff;color:#172638;min-height:48px;padding:10px 12px}.field input::placeholder{color:#9aabb7}.field .hint{font-size:.76rem;color:var(--muted);margin-top:-3px}.section-title{margin:18px 0 10px;font-size:.85rem;font-weight:800;color:#485970}.advanced{margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}.advanced summary{color:var(--accent);font-weight:800;cursor:pointer;list-style-position:inside}.advanced .fields{margin-top:16px}.adv-intro{font-size:.82rem;color:var(--muted);margin:7px 0 0}
+    .result{background:var(--navy);border-color:var(--navy);color:#fff}.result h2{color:#d0dbe6}.result-big{font-size:clamp(1.65rem,3.4vw,2.5rem);font-weight:850;letter-spacing:-.04em;overflow-wrap:anywhere;line-height:1.15;margin:6px 0 4px}.result-name{font-size:.8rem;letter-spacing:.09em;text-transform:uppercase;font-weight:750;color:#d7b564}.result-secondary{margin-top:16px;padding-top:15px;border-top:1px solid #3d5268;display:grid;gap:13px}.result-line{display:flex;gap:12px;justify-content:space-between;align-items:baseline;font-size:.89rem}.result-line span{color:#b6c6d5}.result-line strong{text-align:right;overflow-wrap:anywhere}.result-empty{color:#c8d5e0;font-size:1rem;line-height:1.65}.result-warning{background:#493b28;border-radius:10px;padding:11px 12px;margin-top:18px;color:#fff0c5;font-size:.82rem}.formula{background:#f1f4f7;border-radius:12px;margin-top:17px;padding:16px;color:#394b5b;font-size:.85rem}.formula h3{font-size:.83rem;margin:0 0 7px}.formula p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.small-btn{border:1px solid #b9c8d3;background:#fff;color:#18364d;border-radius:10px;padding:10px 12px;font-weight:700;font-size:.85rem}.small-btn:hover{background:#f1f5f8}.small-btn:disabled{opacity:.45;cursor:not-allowed}
+    .note{font-size:.83rem;color:var(--muted);margin:20px 0 0}.about{margin-top:42px;border-top:1px solid #d8dee6;padding-top:22px;display:flex;align-items:center;justify-content:space-between;gap:14px;font-size:.81rem;color:#607184}.about strong{color:#34475a}.about a{color:#204e70;font-weight:750;text-decoration:underline;text-underline-offset:3px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);border-radius:12px;background:#163b42;color:#fff;padding:13px 20px;font-size:.91rem;box-shadow:0 10px 24px #0002;z-index:9;max-width:90vw}.toast[hidden]{display:none}.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:750px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.panel-grid{grid-template-columns:minmax(0,1fr)}.panel{padding:20px}.result{grid-row:2}.page{padding:23px 15px 44px}.top-inner{padding:14px 16px}.top-right{display:none}.calc-head{align-items:flex-start;flex-direction:column}.segment{align-self:flex-start}}
+    @media(max-width:440px){.grid{gap:11px}.tile{padding:15px;min-height:175px}.tile h2{font-size:.97rem}.tile p{font-size:.81rem}.tile-icon{width:40px;height:40px;font-size:1.45rem}.fields{gap:12px}.field label{font-size:.8rem}.field input,.field select{padding:9px}.brand-sub{letter-spacing:.1em}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.tile{transition:none}}
+  </style>
+</head>
+<body>
+  <header class="top"><div class="top-inner">
+    <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"><path d="m19 5-5 5 4 4 5-5a9 9 0 0 1-11.5 11.5L5 27l-2-2 6.5-6.5A9 9 0 0 1 21 7Z"/></svg></div><div><div class="brand-name">Project Calculator Toolbox</div><div class="brand-sub">A DONCO-BAYCITY App</div></div></div>
+    <div class="top-right">Your pocket project toolbox</div>
+  </div></header>
+  <main class="page">
+    <section class="view" id="homeView">
+      <div class="hero"><div class="kicker">Built for DIY &amp; the trades</div><h1>The right numbers for the job.</h1><p>Six straightforward calculators. Know what to measure, how much material you need, and how the math works.</p></div>
+      <div class="promise" aria-label="App features"><span>✓ Free</span><span>✓ Works offline</span><span>✓ No account needed</span><span>✓ US &amp; metric</span></div>
+      <div class="grid" id="toolGrid">
+        <button class="tile" data-open="measure"><span class="tile-icon" aria-hidden="true">📏</span><h2>Measurements</h2><p>Convert lengths, decimals, and fractions.</p><span class="tile-arrow">Open calculator →</span></button>
+        <button class="tile" data-open="paint"><span class="tile-icon" aria-hidden="true">🖌️</span><h2>Paint</h2><p>Estimate paint for walls and coats.</p><span class="tile-arrow">Open calculator →</span></button>
+        <button class="tile" data-open="floor"><span class="tile-icon" aria-hidden="true">▦</span><h2>Flooring</h2><p>Area, extra material, and boxes.</p><span class="tile-arrow">Open calculator →</span></button>
+        <button class="tile" data-open="concrete"><span class="tile-icon" aria-hidden="true">▤</span><h2>Concrete</h2><p>Concrete volume, bags, and truckloads.</p><span class="tile-arrow">Open calculator →</span></button>
+        <button class="tile" data-open="lumber"><span class="tile-icon" aria-hidden="true">🪵</span><h2>Lumber</h2><p>Board feet and total board volume.</p><span class="tile-arrow">Open calculator →</span></button>
+        <button class="tile" data-open="math"><span class="tile-icon" aria-hidden="true">◺</span><h2>Project Math</h2><p>Right triangles, diagonal, and pitch.</p><span class="tile-arrow">Open calculator →</span></button>
+      </div>
+    </section>
+    <section class="view" id="calculatorView" hidden>
+      <button class="back" id="backHome" type="button">← All calculators</button>
+      <div class="calc-head"><div><div class="kicker">Project Calculator Toolbox / <span id="breadcrumb">Calculator</span></div><h1 id="calcTitle">Calculator</h1><p id="calcSubtitle"></p></div><div class="segment" role="group" aria-label="Measurement system"><button type="button" id="unitUS" aria-pressed="true">US</button><button type="button" id="unitMetric" aria-pressed="false">Metric</button></div></div>
+      <div class="panel-grid">
+        <div class="panel" id="inputPanel"><h2>Measurements</h2><form id="calcForm" novalidate><div id="basicFields" class="fields"></div><details class="advanced" id="advancedSection"><summary>Advanced options</summary><p class="adv-intro" id="advancedIntro">Optional settings for more detailed estimates.</p><div class="fields" id="advancedFields"></div></details><div class="actions"><button class="small-btn" type="button" id="resetTool">Reset fields</button></div></form></div>
+        <div><div class="panel result" aria-live="polite"><h2>Your estimate</h2><div id="resultBody" class="result-empty">Enter your measurements to get started.</div></div><div class="formula"><h3>How this is calculated</h3><p id="formulaText">Results update as you type.</p></div><div class="actions"><button class="small-btn" id="copyResult" type="button" disabled>Copy results</button></div><p class="note" id="toolNote"></p></div>
+      </div>
+    </section>
+    <footer class="about"><div><strong>Project Calculator Toolbox</strong> · A DONCO-BAYCITY App<br>Free tools for real-world projects. Version 1.1 prototype.</div><div><a href="https://github.com/comctx" target="_blank" rel="noopener noreferrer">Discover DONCO projects ↗</a></div></footer>
+  </main>
+  <div class="toast" id="toast" role="status" hidden></div>
+<script>
+'use strict';
+/* Project Calculator Toolbox's calculation functions are standalone for inspection and testing. */
+const FT_M = 0.3048, IN_M = 0.0254, GAL_L = 3.785411784, YD3_FT3 = 27, BF_M3 = 0.002359737216;
+const conversions = {in:IN_M,ft:FT_M,yd:0.9144,mi:1609.344,mm:0.001,cm:0.01,m:1,km:1000};
+const LENGTH_UNITS = ['in','ft','yd','mi','mm','cm','m','km'];
+const toolMeta = {
+ measure:{title:'Measurements',subtitle:'Lengths, decimal inches, and common fractions.',note:'Fractional inches round to the selected precision for display. Decimal conversions use the unrounded value.'},
+ paint:{title:'Paint',subtitle:'Estimate how much paint to purchase.',note:'Paint coverage varies by product, texture, surface preparation, and application. Check the label and the condition of your surface.'},
+ floor:{title:'Flooring',subtitle:'Calculate floor area and optional package counts.',note:'Account for layout, cuts, pattern matching, and manufacturer instructions. Room shapes other than rectangles need separate areas.'},
+ concrete:{title:'Concrete',subtitle:'Estimate slab volume, bag quantities, and ready-mix truckloads.',note:'Confirm ready-mix truck capacity, any partial-load fees, and the actual order quantity with your supplier. Bag yields are product-specific. Estimates are not structural or engineering advice.'},
+ lumber:{title:'Lumber',subtitle:'Board-foot volume for rectangular boards.',note:'Enter actual dimensions for volume of finished boards. Nominal sizes and retailer pricing conventions may differ.'},
+ math:{title:'Project Math',subtitle:'Right triangles, diagonal lengths, and slopes.',note:'These results assume a right triangle. Verify angles and field measurements before cutting or building.'}
+};
+const $ = sel => document.querySelector(sel);
+const state = {tool:null,units:'us',formData:{},latest:null};
+const storageKey='donco.handy-helper.prototype.v1';
+try { const saved=JSON.parse(localStorage.getItem(storageKey)||'{}'); if(saved&&typeof saved==='object'&&saved.formData&&typeof saved.formData==='object')state.formData=saved.formData; } catch {}
+function persist(){try{localStorage.setItem(storageKey,JSON.stringify({formData:state.formData}))}catch{}}
+function n(v){ const s=String(v??'').trim(); if(s==='')return null; const value=Number(s);return Number.isFinite(value)?value:null; }
+function positive(v,allowZero=false){const x=n(v);return x!==null&&(allowZero?x>=0:x>0)?x:null}
+function fmt(v,max=3){return Number(v).toLocaleString('en-US',{maximumFractionDigits:max});}
+function fracPart(v,den=16){ const sign=v<0?'-':'';const mag=Math.abs(v);let whole=Math.floor(mag),num=Math.round((mag-whole)*den); if(num===den){whole++;num=0} if(!num)return sign+whole;const gcd=(a,b)=>b?gcd(b,a%b):a;const common=gcd(num,den);return `${sign}${whole?whole+' ':''}${num/common}/${den/common}`; }
+function parseFraction(raw){
+ const s=String(raw??'').trim().replace(/[−–]/g,'-'); if(!s)return null;
+ if(/^\d+(?:\.\d+)?$/.test(s))return Number(s);
+ const match=s.match(/^(?:(\d+)[ -])?(\d+)\s*\/\s*(\d+)$/);
+ if(!match)return null; const whole=Number(match[1]||0),top=Number(match[2]),bottom=Number(match[3]); if(!bottom)return null; return whole+top/bottom;
+}
+function lengthConvert(value,from,to){return value*conversions[from]/conversions[to]}
+function calcMeasure(x){const value=parseFraction(x.value);if(value===null||value<0||!conversions[x.from]||!conversions[x.to])return null;const result=lengthConvert(value,x.from,x.to),precision=Number(x.precision)||16;return {heading:`${fmt(result,6)} ${x.to}`,label:'Converted length',rows:[['Original',`${fmt(value,6)} ${x.from}`],...(x.to==='in'?[['Fractional inches',`${fracPart(result,precision)} in (nearest 1/${precision})`]]:[]),['Inches',`${fmt(lengthConvert(value,x.from,'in'),6)} in`]],formula:`${fmt(value,6)} ${x.from} × conversion factor = ${fmt(result,6)} ${x.to}.\n1 inch = exactly 25.4 millimeters.`,copy:`${fmt(value,6)} ${x.from} = ${fmt(result,6)} ${x.to}`};}
+function calcPaint(x,u){const w=positive(x.width),h=positive(x.height),walls=positive(x.walls),coats=positive(x.coats),openings=positive(x.openings,true),coverage=positive(x.coverage),waste=positive(x.waste,true);if([w,h,walls,coats,openings,coverage,waste].some(v=>v===null)||walls%1!==0||coats%1!==0||waste>100)return null;const gross=w*h*walls;if(openings>=gross)return {error:'Openings must be smaller than the total wall area.'};const area=gross-openings,areaWithCoats=area*coats,need=areaWithCoats*(1+waste/100)/coverage;const unit=u==='us'?'gal':'L',areaUnit=u==='us'?'sq ft':'m²';return {heading:`${fmt(need,2)} ${unit}`,label:'Estimated paint needed',rows:[['Net wall area',`${fmt(area,2)} ${areaUnit}`],['Coated area',`${fmt(areaWithCoats,2)} ${areaUnit}`],['Whole 1-unit containers',`${fmt(Math.ceil(need))} × 1 ${unit}`]],formula:`(${fmt(w)} × ${fmt(h)} × ${walls} walls − ${fmt(openings)} openings) × ${coats} coat(s) × (1 + ${waste}% waste) ÷ ${fmt(coverage)} ${areaUnit}/${unit} = ${fmt(need,3)} ${unit}.`,copy:`Paint needed: ${fmt(need,3)} ${unit}; net area ${fmt(area,2)} ${areaUnit}`};}
+function calcFloor(x,u){const w=positive(x.width),l=positive(x.length),waste=positive(x.waste,true),pack=n(x.pack);if([w,l,waste].some(v=>v===null)||waste>100)return null;if(pack!==null&&pack<=0)return {error:'Package coverage must be greater than zero.'};const area=w*l,order=area*(1+waste/100),unit=u==='us'?'sq ft':'m²';const rows=[['Room area',`${fmt(area,2)} ${unit}`],['Extra material',`${fmt(order-area,2)} ${unit}`]];if(pack!==null)rows.push(['Full packages',`${Math.ceil(order/pack)} (each ${fmt(pack,2)} ${unit})`]);return {heading:`${fmt(order,2)} ${unit}`,label:'Material to order',rows,formula:`${fmt(w)} × ${fmt(l)} = ${fmt(area,2)} ${unit}.\n${fmt(area,2)} × (1 + ${waste}% waste) = ${fmt(order,2)} ${unit}.`+(pack!==null?`\nRound up ${fmt(order,2)} ÷ ${fmt(pack,2)} = ${Math.ceil(order/pack)} packages.`:''),copy:`Flooring: ${fmt(area,2)} ${unit} room; order ${fmt(order,2)} ${unit}`+(pack!==null?`; ${Math.ceil(order/pack)} packages`:'' )};}
+function calcConcrete(x,u){
+ const l=positive(x.length),w=positive(x.width),d=positive(x.depth);
+ const waste=positive(x.waste,true),yieldEach=positive(x.yield);
+ // Truck capacity is an editable assumption, not a promise about supplier capacity.
+ const capacity=positive(x.truckCapacity);
+ if([l,w,d,waste,yieldEach].some(v=>v===null)||waste>100)return null;
+ if(capacity===null)return {error:'Enter a truck capacity greater than zero under Advanced options.'};
+ const m3=u==='us'?l*FT_M*w*FT_M*d*IN_M:l*w*(d/100);
+ const totalM3=m3*(1+waste/100),cubicFt=totalM3/(FT_M**3);
+ const yards=cubicFt/YD3_FT3;
+ const volumeForLoads=u==='us'?yards:totalM3;
+ const truckUnit=u==='us'?'yd³':'m³';
+ const bagUnit=u==='us'?'ft³':'m³';
+ const bags=Math.ceil((u==='us'?cubicFt:totalM3)/yieldEach);
+ const ratio=volumeForLoads/capacity;
+ // Avoid a phantom extra truck from floating-point error at exact capacities.
+ const loads=Math.ceil(ratio-1e-12*Math.max(1,Math.abs(ratio)));
+ const finalLoad=volumeForLoads-(loads-1)*capacity;
+ const lastLoad=Math.max(0,Math.min(capacity,finalLoad));
+ return {
+  heading:u==='us'?`${fmt(yards,3)} yd³`:`${fmt(totalM3,3)} m³`,
+  label:'Concrete with waste',
+  rows:[
+   ['Estimated truckloads',`${fmt(loads)} at ${fmt(capacity,3)} ${truckUnit}/truck`],
+   ['Final truck (if earlier trucks are full)',`${fmt(lastLoad,3)} ${truckUnit}`],
+   ['Cubic feet',`${fmt(cubicFt,2)} ft³`],
+   ['Cubic meters',`${fmt(totalM3,3)} m³`],
+   ['Approximate bags',`${fmt(bags)} at ${fmt(yieldEach,3)} ${bagUnit}/bag`]
+  ],
+  formula:`Length × width × depth = ${fmt(m3,4)} m³ before waste.\nApply ${waste}% waste = ${fmt(totalM3,4)} m³ (${fmt(yards,4)} yd³).\nTruckloads = round up(${fmt(volumeForLoads,4)} ${truckUnit} ÷ ${fmt(capacity,3)} ${truckUnit}/truck) = ${fmt(loads)}.\nBags = volume ÷ stated bag yield, rounded up.`,
+  warning:'Truck capacity is an estimate: actual loads, legal weight limits, minimum orders, and partial-load fees vary by supplier. Confirm before ordering. Check bag yield on the package.',
+  copy:`Concrete: ${fmt(totalM3,4)} m³ / ${fmt(yards,3)} yd³; ${loads} estimated truckload(s) at ${fmt(capacity,3)} ${truckUnit} each; last load ${fmt(lastLoad,3)} ${truckUnit}; about ${bags} bags at entered yield`
+ };
+}
+function calcLumber(x,u){const thick=positive(x.thickness),width=positive(x.width),len=positive(x.length),qty=positive(x.quantity);if([thick,width,len,qty].some(v=>v===null)||qty%1!==0)return null;const volM3=u==='us'?thick*IN_M*width*IN_M*len*FT_M*qty:thick*.001*width*.001*len*qty;const bf=volM3/BF_M3;return {heading:u==='us'?`${fmt(bf,3)} board ft`:`${fmt(volM3,5)} m³`,label:'Total lumber volume',rows:[['Pieces',String(qty)],...[u==='us'?['Cubic meters',`${fmt(volM3,5)} m³`]:['Board feet',`${fmt(bf,3)} board ft`]],['Length per piece',`${fmt(len,3)} ${u==='us'?'ft':'m'}`]],formula:u==='us'?`(${fmt(thick)} in × ${fmt(width)} in × ${fmt(len)} ft ÷ 12) × ${qty} = ${fmt(bf,3)} board feet.`:`Thickness × width × length × pieces = ${fmt(volM3,5)} m³.\n1 board foot = exactly 0.002359737216 m³.`,copy:`Lumber: ${fmt(bf,3)} board feet (${qty} pieces; ${fmt(volM3,5)} m³)`};}
+function calcMath(x,u){const rise=positive(x.rise,true),run=positive(x.run);if(rise===null||run===null)return null;const hyp=Math.hypot(rise,run),angle=Math.atan2(rise,run)*180/Math.PI,pitch=rise/run*12,unit=u==='us'?'ft':'m';return {heading:`${fmt(hyp,3)} ${unit}`,label:'Diagonal / sloped length',rows:[['Angle',`${fmt(angle,2)}°`],['Pitch',`${fmt(pitch,3)} : 12`],['Rise ÷ run',`${fmt(rise/run*100,2)}%`]],formula:`√(${fmt(run)}² + ${fmt(rise)}²) = ${fmt(hyp,3)} ${unit}.\nAngle = arctan(rise ÷ run) = ${fmt(angle,2)}°.\nPitch = (rise ÷ run) × 12 = ${fmt(pitch,3)} in 12.`,copy:`Diagonal: ${fmt(hyp,3)} ${unit}; angle: ${fmt(angle,2)}°; pitch: ${fmt(pitch,3)}:12`};}
+function field(name,label,opts={}){const {value='',hint='',wide=false,type='number',step='any',placeholder='',options=null}=opts;const id='f_'+name;const inner=options?`<select name="${name}" id="${id}">${options.map(([val,txt])=>`<option value="${val}">${txt}</option>`).join('')}</select>`:`<input id="${id}" name="${name}" type="${type}" ${type==='number'?'inputmode="decimal" min="0" step="'+step+'"':'inputmode="text"'} placeholder="${placeholder}" value="${value}" autocomplete="off">`;return `<div class="field${wide?' wide':''}"><label for="${id}">${label}</label>${inner}${hint?`<span class="hint">${hint}</span>`:''}</div>`;}
+function forms(t,u){const us=u==='us',ft=us?'ft':'m',sq=us?'sq ft':'m²';switch(t){
+case 'measure':return {basic:field('value','Length to convert',{type:'text',placeholder:'e.g. 5 3/8 or 12.5',wide:true,hint:'Fractions accepted: 3/4, 2 1/2, 2-1/2'})+field('from','From',{options:LENGTH_UNITS.map(x=>[x,x]),})+field('to','To',{options:LENGTH_UNITS.map(x=>[x,x])}),advance:field('precision','Fraction precision',{options:[[16,'Nearest 1/16 in'],[32,'Nearest 1/32 in'],[64,'Nearest 1/64 in']]}),defaults:{from:us?'in':'cm',to:us?'ft':'m',precision:'16'}};
+case 'paint':return {basic:field('width',`Wall width (${ft})`,{placeholder:'Enter width'})+field('height',`Wall height (${ft})`,{placeholder:'Enter height'}),advance:field('walls','Identical walls',{value:'1',step:'1'})+field('coats','Number of coats',{value:'2',step:'1'})+field('openings',`Doors/windows area (${sq})`,{value:'0'})+field('coverage',`Coverage (${sq}/${us?'gal':'L'})`,{value:us?'350':'9',hint:'Check paint-can coverage'})+field('waste','Extra allowance (%)',{value:'10'}),defaults:{walls:'1',coats:'2',openings:'0',coverage:us?'350':'9',waste:'10'}};
+case 'floor':return {basic:field('length',`Room length (${ft})`,{placeholder:'Enter length'})+field('width',`Room width (${ft})`,{placeholder:'Enter width'}),advance:field('waste','Waste for cuts (%)',{value:'10'})+field('pack',`Coverage per package (${sq})`,{placeholder:'Optional',hint:'Leave blank to estimate area only'}),defaults:{waste:'10'}};
+case 'concrete':return {basic:field('length',`Slab length (${ft})`,{placeholder:'Enter length'})+field('width',`Slab width (${ft})`,{placeholder:'Enter width'})+field('depth',`Slab depth (${us?'in':'cm'})`,{placeholder:'Enter thickness',wide:true}),advance:field('waste','Extra allowance (%)',{value:'5'})+field('yield',`Yield per bag (${us?'ft³':'m³'})`,{value:us?'0.60':'0.017',hint:'Approximate default; check the product label'})+field('truckCapacity',`Concrete per truck (${us?'yd³':'m³'})`,{value:us?'10':'8',hint:'Default estimate; confirm the actual load capacity with your supplier'}),defaults:{waste:'5',yield:us?'0.60':'0.017',truckCapacity:us?'10':'8'}};
+case 'lumber':return {basic:field('thickness',`Thickness (${us?'in':'mm'})`,{placeholder:'Enter thickness'})+field('width',`Width (${us?'in':'mm'})`,{placeholder:'Enter width'})+field('length',`Length of each (${ft})`,{placeholder:'Enter length',wide:true}),advance:field('quantity','Number of pieces',{value:'1',step:'1'}),defaults:{quantity:'1'}};
+case 'math':return {basic:field('run',`Horizontal run (${ft})`,{placeholder:'Enter run'})+field('rise',`Vertical rise (${ft})`,{placeholder:'Enter rise or 0'}),advance:'<p class="adv-intro">Use the same units for rise and run. Angles and pitch are unit-independent.</p>',defaults:{}};
+default:throw Error('Unknown tool');}}
+function readForm(){const data={};for(const el of $('#calcForm').elements){if(el.name)data[el.name]=el.value;}return data}
+function savedKey(){return `${state.tool}.${state.units}`}
+function getDraft(){const x=state.formData[savedKey()];return x&&typeof x==='object'?x:{}}
+function showToast(message){const el=$('#toast');el.textContent=message;el.hidden=false;clearTimeout(showToast.timeout);showToast.timeout=setTimeout(()=>el.hidden=true,2300)}
+function updateResult(){if(!state.tool)return;const x=readForm();state.formData[savedKey()]=x;persist();const result=({measure:calcMeasure,paint:calcPaint,floor:calcFloor,concrete:calcConcrete,lumber:calcLumber,math:calcMath})[state.tool](x,state.units);state.latest=null;
+const root=$('#resultBody');if(!result){root.className='result-empty';root.textContent='Enter valid measurements to calculate. Required dimensions must be greater than zero.';$('#formulaText').textContent='Results update automatically. Required inputs must be valid numbers.';$('#copyResult').disabled=true;return;}
+if(result.error){root.className='result-empty';root.textContent=result.error;$('#formulaText').textContent='Correct the input above to continue.';$('#copyResult').disabled=true;return;}
+root.className='';const name=document.createElement('div');name.className='result-name';name.textContent=result.label;root.replaceChildren(name);
+const big=document.createElement('div');big.className='result-big';big.textContent=result.heading;root.appendChild(big);
+const secondary=document.createElement('div');secondary.className='result-secondary';for(const [label,value] of result.rows){const line=document.createElement('div');line.className='result-line';const left=document.createElement('span'),right=document.createElement('strong');left.textContent=label;right.textContent=value;line.append(left,right);secondary.appendChild(line)}root.appendChild(secondary);
+if(result.warning){const warn=document.createElement('div');warn.className='result-warning';warn.textContent=result.warning;root.appendChild(warn)}$('#formulaText').textContent=result.formula;$('#copyResult').disabled=false;state.latest=result;}
+function buildForm(){if(!state.tool)return;const {title,subtitle,note}=toolMeta[state.tool],def=forms(state.tool,state.units);$('#calcTitle').textContent=title;$('#breadcrumb').textContent=title;$('#calcSubtitle').textContent=subtitle;$('#toolNote').textContent=note;$('#basicFields').innerHTML=def.basic;$('#advancedFields').innerHTML=def.advance||'';
+$('#advancedSection').hidden=!def.advance;$('#unitUS').setAttribute('aria-pressed',String(state.units==='us'));$('#unitMetric').setAttribute('aria-pressed',String(state.units==='metric'));
+const values={...def.defaults,...getDraft()};for(const el of $('#calcForm').elements){if(el.name&&Object.prototype.hasOwnProperty.call(values,el.name))el.value=values[el.name]}updateResult();}
+function openTool(tool){if(!toolMeta[tool])return;state.tool=tool;state.units='us';$('#homeView').hidden=true;$('#calculatorView').hidden=false;$('#advancedSection').open=false;buildForm();window.scrollTo({top:0,behavior:'instant'});}
+function goHome(){state.tool=null;state.latest=null;$('#homeView').hidden=false;$('#calculatorView').hidden=true;window.scrollTo({top:0,behavior:'instant'});}
+function setUnits(units){if(!state.tool||!['us','metric'].includes(units)||state.units===units)return;state.units=units;buildForm();}
+$('#toolGrid').addEventListener('click',e=>{const button=e.target.closest('[data-open]');if(button)openTool(button.dataset.open)});
+$('#backHome').addEventListener('click',goHome);$('#unitUS').addEventListener('click',()=>setUnits('us'));$('#unitMetric').addEventListener('click',()=>setUnits('metric'));
+$('#calcForm').addEventListener('input',updateResult);$('#calcForm').addEventListener('change',updateResult);$('#calcForm').addEventListener('submit',e=>e.preventDefault());
+$('#resetTool').addEventListener('click',()=>{delete state.formData[savedKey()];persist();buildForm();showToast('Fields reset.');});
+$('#copyResult').addEventListener('click',async()=>{if(!state.latest)return;const text=`Project Calculator Toolbox — ${toolMeta[state.tool].title}\n${state.latest.copy}\n${state.latest.formula}`;try{await navigator.clipboard.writeText(text);showToast('Results copied.')}catch{try{const t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();const ok=document.execCommand('copy');t.remove();showToast(ok?'Results copied.':'Copy unavailable in this browser.')}catch{showToast('Copy unavailable in this browser.')}}});
+</script>
+</body>
+</html>
