@@ -42,6 +42,7 @@
     button.category-tile:hover{transform:translateY(-2px);box-shadow:0 8px 18px #14263a20;border-color:#8aaccd}
     .category-art{display:grid;place-items:center;width:100%;min-height:99px;background:linear-gradient(145deg,#e9f1f8,#f9f8f3);font-size:3.3rem;line-height:1}
     .category-label{font-size:.91rem;font-weight:800;padding:8px 6px 0;line-height:1.2}.planned{opacity:.6}.coming-soon{font-size:.66rem;color:#5b6878;margin-top:4px}
+    .category[hidden],.category-tile[hidden],#noHomeMatches[hidden]{display:none!important}
     #noHomeMatches{font-weight:700;color:var(--muted);padding:24px;text-align:center}
     @media(max-width:900px){.category:nth-child(n){grid-column:span 3}.category-count{font-size:.68rem}.category-head{gap:9px}}
     @media(max-width:640px){.dashboard-intro{flex-direction:column;align-items:stretch}.dashboard-search{min-width:0}.category:nth-child(n){grid-column:span 6}.category-tools{grid-template-columns:repeat(2,minmax(0,1fr))}.category-head{min-height:0}.category-intro h2{font-size:1.13rem}.category-count{font-size:.69rem}.category-art{min-height:88px}.page{padding:18px 14px 42px}}
