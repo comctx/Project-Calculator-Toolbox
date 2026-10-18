@@ -17,6 +17,7 @@ test('invalid inputs rejected',()=>{assert.equal(sandbox.calcRoof({run:'-1',pitc
 test('deck material counts',()=>{const r=sandbox.calcDeck({length:'12',width:'10',boardWidth:'5.5',gap:'0.125',spacing:'16',waste:'10'},'us');assert.equal(r.heading,'25 boards')});
 test('fence posts',()=>{const r=sandbox.calcFence({length:'100',spacing:'8',rails:'2',picket:'5.5',gap:'0.5',waste:'10'},'us');assert.equal(r.heading,'14 posts')});
 test('bulk volume',()=>{const r=sandbox.calcBulk({length:'10',width:'10',depth:'3',bag:'0.075',waste:'10'},'us');assert.ok(r.heading.includes('1.019 yd³'))});
+test('bulk truckloads',()=>{const r=sandbox.calcBulk({length:'120',width:'20',depth:'1',bag:'0.075',waste:'10',truck:'10'},'us');assert.ok(r.rows.some(x=>x[0]==='Estimated truckloads'&&x[1].startsWith('1 at 10')));assert.ok(r.rows.some(x=>x[0]==='Final truckload (if prior loads full)'&&x[1]==='8.148 yd³'))});
 test('tile boxes',()=>{const r=sandbox.calcTile({length:'10',width:'10',tileArea:'1',boxArea:'10',waste:'10'},'us');assert.equal(r.heading,'11 boxes')});
 test('insulation packages',()=>{const r=sandbox.calcInsulation({length:'20',height:'8',openings:'0',coverage:'40',waste:'10'},'us');assert.equal(r.heading,'5 packages')});
 console.log('Calculator smoke tests finished.');
