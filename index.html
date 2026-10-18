@@ -97,7 +97,7 @@ function calcConcrete(x,u){
  const volumeForLoads=u==='us'?yards:totalM3;
  const truckUnit=u==='us'?'yd³':'m³';
  const bagUnit=u==='us'?'ft³':'m³';
- const bags=Math.ceil((u==='us'?cubicFt:totalM3)/yieldEach);
+ const bagRatio=(u==='us'?cubicFt:totalM3)/yieldEach;const bags=Math.ceil(bagRatio-1e-12*Math.max(1,Math.abs(bagRatio)));
  const ratio=volumeForLoads/capacity;
  // Avoid a phantom extra truck from floating-point error at exact capacities.
  const loads=Math.ceil(ratio-1e-12*Math.max(1,Math.abs(ratio)));
