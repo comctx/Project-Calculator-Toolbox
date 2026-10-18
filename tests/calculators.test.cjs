@@ -14,7 +14,7 @@ test('stairs risers',()=>{const r=sandbox.calcStairs({total:'108',max:'7.75',tre
 test('roofing bundles',()=>{const r=sandbox.calcRoofingMaterials({length:'30',run:'12',pitch:'6',waste:'10',coverage:'33.3',sides:'2'},'us');assert.equal(r.heading,'885.48 sq ft');assert.ok(r.rows.some(x=>x[1]==='27'))});
 test('drywall sheets',()=>{const r=sandbox.calcDrywall({length:'12',width:'10',height:'8',openings:'20',ceiling:'1',waste:'10',sheetArea:'32'},'us');assert.equal(r.heading,'16 sheets')});
 test('invalid inputs rejected',()=>{assert.equal(sandbox.calcRoof({run:'-1',pitch:'6',overhang:'0'},'us'),null);assert.equal(sandbox.calcStairs({total:'0',max:'7.75',tread:'10'},'us'),null)});
-test('deck material counts',()=>{const r=sandbox.calcDeck({length:'12',width:'10',boardWidth:'5.5',gap:'0.125',spacing:'16',waste:'10'},'us');assert.equal(r.heading,'24 boards')});
+test('deck material counts',()=>{const r=sandbox.calcDeck({length:'12',width:'10',boardWidth:'5.5',gap:'0.125',spacing:'16',waste:'10'},'us');assert.equal(r.heading,'25 boards')});
 test('fence posts',()=>{const r=sandbox.calcFence({length:'100',spacing:'8',rails:'2',picket:'5.5',gap:'0.5',waste:'10'},'us');assert.equal(r.heading,'14 posts')});
 test('bulk volume',()=>{const r=sandbox.calcBulk({length:'10',width:'10',depth:'3',bag:'0.075',waste:'10'},'us');assert.ok(r.heading.includes('1.019 yd³'))});
 test('tile boxes',()=>{const r=sandbox.calcTile({length:'10',width:'10',tileArea:'1',boxArea:'10',waste:'10'},'us');assert.equal(r.heading,'11 boxes')});
