@@ -158,17 +158,18 @@ function renderGeometryDiagram(data){
   label(84,y0-9,fmt(data.angle,2)+'°','start');
   label(218,24,'Pitch '+fmt(data.pitch,2)+':12');
  }else{
-  const shown=Math.min(data.count,12);
-  const left=40,bottom=188,right=386,top=36;
+  // Fit every riser in the schematic, regardless of count.
+  const shown=data.count;
+  const left=40,bottom=183,right=386,top=60;
   const w=(right-left)/shown,h=(bottom-top)/shown;
   let path='M '+left+' '+bottom;
   for(let i=0;i<shown;i++)path+=' v -'+h+' h '+w;
-  make('path',{d:path,fill:'none',stroke:'#c78b20','stroke-width':4,'stroke-linejoin':'round'});
+  make('path',{d:path,fill:'none',stroke:'#c78b20','stroke-width':3,'stroke-linejoin':'round'});
   line(left,bottom,right,bottom,'#285271',1.5);
-  label(220,216,'Total run: '+fmt(data.run,2)+' '+data.unit);
-  label(43,20,data.count+' equal risers at '+fmt(data.actual,3)+' '+data.unit,'start');
-  if(data.count>shown)label(220,31,'Schematic shows first '+shown+' risers');
-  label(392,185,'Tread '+fmt(data.tread,2)+' '+data.unit,'end');
+  label(220,218,'Total run: '+fmt(data.run,2)+' '+data.unit);
+  label(220,22,data.count+' equal risers');
+  label(220,42,'Each riser: '+fmt(data.actual,3)+' '+data.unit+'  |  Tread: '+fmt(data.tread,2)+' '+data.unit);
+
  }
  container.appendChild(svg);
  const note=document.createElement('div');
